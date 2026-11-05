@@ -10,13 +10,15 @@
     <meta property="og:type" content="website">
     <style>
         :root {
-            --bg: #0a0a0f;
-            --bg-card: #14141c;
-            --border: #23232f;
-            --text: #e8e8ef;
-            --text-muted: #8b8b9e;
-            --accent: #3b5bdb;
-            --accent-hover: #4c6ef5;
+            --bg: #0d0b14;
+            --bg-card: #181425;
+            --border: #2d2545;
+            --text: #f0ecf8;
+            --text-muted: #9d93b8;
+            --accent: #7c5cfc;
+            --accent-hover: #9b7fff;
+            --accent2: #ff6b9d;
+            --accent3: #4ecdc4;
             --space-1: 8px;
             --space-2: 16px;
             --space-3: 24px;
@@ -34,8 +36,45 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
+            overflow-x: hidden;
         }
-        .container { max-width: 640px; margin: 0 auto; padding: 0 var(--space-3); }
+        .container { max-width: 640px; margin: 0 auto; padding: 0 var(--space-3); position: relative; z-index: 1; }
+
+        /* ---------- FUN BACKGROUND ---------- */
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .blob-1 {
+            width: 400px; height: 400px;
+            background: var(--accent);
+            top: -100px; left: -100px;
+            animation: float 8s ease-in-out infinite;
+        }
+        .blob-2 {
+            width: 350px; height: 350px;
+            background: var(--accent2);
+            bottom: -50px; right: -100px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+        .blob-3 {
+            width: 250px; height: 250px;
+            background: var(--accent3);
+            top: 50%; left: 60%;
+            animation: float 12s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .blob { animation: none; }
+        }
 
         /* ---------- HERO ---------- */
         .hero {
@@ -48,28 +87,59 @@
             padding: var(--space-6) 0;
             position: relative;
         }
+        .avatar-wrap {
+            position: relative;
+            margin-bottom: var(--space-3);
+            display: inline-block;
+        }
         .avatar {
-            width: 112px;
-            height: 112px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--border);
+            border: 3px solid transparent;
             background: var(--bg-card);
-            margin-bottom: var(--space-3);
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
         }
+        .avatar-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent), var(--accent2), var(--accent3), var(--accent));
+            animation: spin 4s linear infinite;
+            z-index: 0;
+        }
+        .avatar-wrap:hover .avatar {
+            transform: scale(1.05) rotate(-3deg);
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .avatar-wrap::before { animation: none; }
+        }
+
         .hero h1 {
             font-size: clamp(1.875rem, 5vw, 2.5rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
+            font-weight: 800;
+            letter-spacing: -0.03em;
             line-height: 1.15;
             margin-bottom: var(--space-1);
-            color: var(--text);
+            background: linear-gradient(135deg, var(--text) 0%, var(--accent2) 50%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-wrap: balance;
         }
         .hero .niche {
             font-size: 0.875rem;
-            color: var(--text-muted);
-            letter-spacing: 0.01em;
+            color: var(--accent3);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 600;
             margin-bottom: var(--space-3);
         }
         .hero p.desc {
@@ -95,35 +165,61 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             padding: 10px var(--space-2);
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 0.875rem;
-            transition: border-color 0.2s, transform 0.2s;
+            font-weight: 500;
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
         }
         .socials a:hover {
             border-color: var(--accent);
-            transform: translateY(-2px);
+            transform: translateY(-3px) rotate(-1deg);
+            box-shadow: 0 8px 20px rgba(124, 92, 252, 0.3);
+        }
+        .socials a:nth-child(2):hover {
+            border-color: var(--accent2);
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.3);
+        }
+        .socials a:nth-child(3):hover {
+            border-color: var(--accent3);
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.3);
         }
         .socials svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+
         .wishes-btn {
             display: inline-block;
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
             color: #fff;
             text-decoration: none;
-            padding: 14px var(--space-4);
-            border-radius: 10px;
-            font-weight: 600;
+            padding: 15px var(--space-4);
+            border-radius: 14px;
+            font-weight: 700;
             font-size: 0.9375rem;
-            transition: background-color 0.2s, transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(124, 92, 252, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .wishes-btn::before {
+            content: '✨';
+            position: absolute;
+            left: 12px;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
         }
         .wishes-btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(124, 92, 252, 0.5);
         }
+        .wishes-btn:hover::before {
+            opacity: 1;
+            transform: translateX(0) rotate(-15deg);
+        }
+
         .scroll-hint {
             position: absolute;
             bottom: var(--space-4);
             color: var(--text-muted);
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             animation: bounce 2s infinite;
         }
         @media (prefers-reduced-motion: reduce) {
@@ -132,18 +228,29 @@
         }
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(6px); }
+            50% { transform: translateY(8px); }
         }
 
         /* ---------- SECTIONS ---------- */
-        section { padding: var(--space-6) 0; }
+        section { padding: var(--space-6) 0; position: relative; z-index: 1; }
         .section-title {
             font-size: 1.75rem;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: -0.02em;
             line-height: 1.2;
             margin-bottom: var(--space-1);
             text-wrap: balance;
+        }
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 1.6rem;
+            background: linear-gradient(180deg, var(--accent), var(--accent2));
+            border-radius: 4px;
+            margin-right: 10px;
+            vertical-align: middle;
+            transform: translateY(-2px);
         }
         .section-subtitle {
             color: var(--text-muted);
@@ -155,56 +262,46 @@
         /* ---------- REPOS ---------- */
         .repo-list { display: grid; gap: var(--space-2); }
         .repo-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: var(--space-2) var(--space-3);
-            transition: border-color 0.2s, transform 0.2s;
-        }
-        .repo-list { display: grid; gap: var(--space-2); }
-        
-        .repo-card {
             display: block;
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: var(--space-2) var(--space-3);
             text-decoration: none;
             color: inherit;
-            transition: border-color 0.2s, transform 0.2s;
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .repo-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent), var(--accent3));
+            opacity: 0;
+            transition: opacity 0.2s;
         }
         .repo-card:hover,
         .repo-card:focus-visible {
             border-color: var(--accent);
-            transform: translateY(-2px);
+            transform: translateY(-3px) rotate(-0.5deg);
+            box-shadow: 0 10px 25px rgba(124, 92, 252, 0.2);
+        }
+        .repo-card:hover::after {
+            opacity: 1;
         }
         .repo-card:focus-visible {
             outline: 2px solid var(--accent);
             outline-offset: 2px;
         }
-        
         .repo-name {
             font-size: 1.0625rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--accent-hover);
             margin-bottom: 0;
         }
-        
-        .repo-desc {
-            color: var(--text-muted);
-            font-size: 0.9375rem;
-            margin: var(--space-1) 0;
-            text-wrap: pretty;
-        }
-        .repo-desc.empty { opacity: 0.6; font-style: italic; }
-        
-        .repo-meta {
-            font-size: 0.8125rem;
-            color: var(--text-muted);
-            display: flex;
-            gap: var(--space-2);
-            flex-wrap: wrap;
-        }
         .repo-desc {
             color: var(--text-muted);
             font-size: 0.9375rem;
@@ -218,6 +315,11 @@
             display: flex;
             gap: var(--space-2);
             flex-wrap: wrap;
+        }
+        .repo-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
         .loading, .error {
             text-align: center;
@@ -225,14 +327,23 @@
             padding: var(--space-4);
             font-size: 0.9375rem;
         }
-        .error { color: #ff8787; }
+        .error { color: #ff6b6b; }
 
         /* ---------- FORM ---------- */
         .contact-form {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: var(--space-3);
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-form::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
         }
         .contact-form label {
             display: block;
@@ -248,33 +359,41 @@
             margin-top: var(--space-1);
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 12px 14px;
             color: var(--text);
             font-family: inherit;
             font-size: 1rem;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
         .contact-form input:focus,
         .contact-form textarea:focus {
             outline: none;
             border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.2);
         }
         .contact-form textarea { resize: vertical; min-height: 100px; }
         .contact-form button {
             width: 100%;
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
             color: #fff;
             border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-weight: 600;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 700;
             font-size: 1rem;
             font-family: inherit;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(124, 92, 252, 0.3);
         }
-        .contact-form button:hover { background: var(--accent-hover); }
+        .contact-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 92, 252, 0.45);
+        }
+        .contact-form button:active {
+            transform: translateY(0);
+        }
 
         footer {
             text-align: center;
@@ -282,22 +401,40 @@
             color: var(--text-muted);
             font-size: 0.8125rem;
             border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ---------- WIGGLE ANIMATION ---------- */
+        .wiggle {
+            animation: wiggle 0.5s ease-in-out;
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-3deg); }
+            75% { transform: rotate(3deg); }
         }
     </style>
 </head>
 <body>
 
+    <!-- Fun floating blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
     <!-- ========== 1. HERO ========== -->
     <header class="hero">
         <div class="container">
-            <!-- Ganti src dengan URL foto profil 1:1 kamu -->
-            <img
-                src="https://github.com/kenrsx.png"
-                alt="Foto profil Kenzie"
-                class="avatar"
-            />
+            <div class="avatar-wrap">
+                <img
+                    src="https://github.com/kenrsx.png"
+                    alt="Foto profil Kenzie"
+                    class="avatar"
+                />
+            </div>
             <h1>Ahmad Kenzie Aryasatya</h1>
-            <p class="niche">Financial Technology</p>
+            <p class="niche">⚡ Financial Technology ⚡</p>
             <p class="desc">
                 Accounting student by day, wrestling with AI by night.
                 Helping people collaborate better with AI in their daily life.
@@ -310,7 +447,11 @@
                 </a>
                 <a href="https://linkedin.com/in/kenzieee" target="_blank" rel="noopener">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
-                    linkedin.com/in/kenzieee
+                    linkedin
+                </a>
+                <a href="https://github.com/kenrsx" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    github
                 </a>
             </div>
 
@@ -352,7 +493,7 @@
                     <textarea name="message" required placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea>
                 </label>
 
-                <button type="submit">Kirim wishes</button>
+                <button type="submit">Kirim wishes ✨</button>
             </form>
         </div>
     </section>
@@ -365,6 +506,15 @@
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Fun wiggle on avatar click
+        const avatar = document.querySelector('.avatar');
+        if (avatar) {
+            avatar.addEventListener('click', () => {
+                avatar.classList.add('wiggle');
+                setTimeout(() => avatar.classList.remove('wiggle'), 500);
+            });
+        }
 
         const username = 'kenrsx';
         const container = document.getElementById('repo-list');
@@ -413,9 +563,9 @@
                             ${desc}
                             <div class="repo-meta">
                                 ${lang}
-                                <span>${repo.stargazers_count} stars</span>
-                                <span>${repo.forks_count} forks</span>
-                                <span>Updated ${date}</span>
+                                <span>⭐ ${repo.stargazers_count}</span>
+                                <span>🍴 ${repo.forks_count}</span>
+                                <span>🕐 ${date}</span>
                             </div>
                         </a>
                     `;
