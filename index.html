@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenzie · Fintech & AI</title>
+    <meta name="description" content="Accounting student by day, wrestling with AI by night. Helping people collaborate better with AI in their daily life.">
+    <meta property="og:title" content="Kenzie · Fintech & AI">
+    <meta property="og:description" content="Accounting student by day, wrestling with AI by night.">
+    <meta property="og:type" content="website">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg-card: #14141c;
+            --border: #23232f;
+            --text: #e8e8ef;
+            --text-muted: #8b8b9e;
+            --accent: #3b5bdb;
+            --accent-hover: #4c6ef5;
+            --space-1: 8px;
+            --space-2: 16px;
+            --space-3: 24px;
+            --space-4: 32px;
+            --space-5: 48px;
+            --space-6: 64px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+        .container { max-width: 640px; margin: 0 auto; padding: 0 var(--space-3); }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: var(--space-6) 0;
+            position: relative;
+        }
+        .avatar {
+            width: 112px;
+            height: 112px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            background: var(--bg-card);
+            margin-bottom: var(--space-3);
+        }
+        .hero h1 {
+            font-size: clamp(1.875rem, 5vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-bottom: var(--space-1);
+            color: var(--text);
+            text-wrap: balance;
+        }
+        .hero .niche {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            letter-spacing: 0.01em;
+            margin-bottom: var(--space-3);
+        }
+        .hero p.desc {
+            color: var(--text-muted);
+            max-width: 460px;
+            margin: 0 auto var(--space-4);
+            font-size: 1rem;
+            text-wrap: pretty;
+        }
+        .socials {
+            display: flex;
+            gap: var(--space-2);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--space-4);
+        }
+        .socials a {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            color: var(--text);
+            text-decoration: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 10px var(--space-2);
+            border-radius: 10px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .socials a:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .socials svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+        .wishes-btn {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 14px var(--space-4);
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .wishes-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+        .scroll-hint {
+            position: absolute;
+            bottom: var(--space-4);
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            animation: bounce 2s infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .scroll-hint { animation: none; }
+            html { scroll-behavior: auto; }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(6px); }
+        }
+
+        /* ---------- SECTIONS ---------- */
+        section { padding: var(--space-6) 0; }
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: var(--space-1);
+            text-wrap: balance;
+        }
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            margin-bottom: var(--space-4);
+            text-wrap: pretty;
+        }
+
+        /* ---------- REPOS ---------- */
+        .repo-list { display: grid; gap: var(--space-2); }
+        .repo-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: var(--space-2) var(--space-3);
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .repo-list { display: grid; gap: var(--space-2); }
+        
+        .repo-card {
+            display: block;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: var(--space-2) var(--space-3);
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .repo-card:hover,
+        .repo-card:focus-visible {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .repo-card:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        
+        .repo-name {
+            font-size: 1.0625rem;
+            font-weight: 600;
+            color: var(--accent-hover);
+            margin-bottom: 0;
+        }
+        
+        .repo-desc {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            margin: var(--space-1) 0;
+            text-wrap: pretty;
+        }
+        .repo-desc.empty { opacity: 0.6; font-style: italic; }
+        
+        .repo-meta {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+        }
+        .repo-desc {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            margin: var(--space-1) 0;
+            text-wrap: pretty;
+        }
+        .repo-desc.empty { opacity: 0.6; font-style: italic; }
+        .repo-meta {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+        }
+        .loading, .error {
+            text-align: center;
+            color: var(--text-muted);
+            padding: var(--space-4);
+            font-size: 0.9375rem;
+        }
+        .error { color: #ff8787; }
+
+        /* ---------- FORM ---------- */
+        .contact-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: var(--space-3);
+        }
+        .contact-form label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            color: var(--text-muted);
+        }
+        .contact-form input,
+        .contact-form textarea {
+            display: block;
+            width: 100%;
+            margin-top: var(--space-1);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .contact-form textarea { resize: vertical; min-height: 100px; }
+        .contact-form button {
+            width: 100%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .contact-form button:hover { background: var(--accent-hover); }
+
+        footer {
+            text-align: center;
+            padding: var(--space-4) 0;
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== 1. HERO ========== -->
+    <header class="hero">
+        <div class="container">
+            <!-- Ganti src dengan URL foto profil 1:1 kamu -->
+            <img
+                src="https://github.com/kenrsx.png"
+                alt="Foto profil Kenzie"
+                class="avatar"
+            />
+            <h1>Ahmad Kenzie Aryasatya</h1>
+            <p class="niche">Financial Technology</p>
+            <p class="desc">
+                Accounting student by day, wrestling with AI by night.
+                Helping people collaborate better with AI in their daily life.
+            </p>
+
+            <div class="socials">
+                <a href="https://instagram.com/kenrsx" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58 0 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85 0-3.2.01-3.58.07-4.85.15-3.23 1.66-4.77 4.92-4.92 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm6.4-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg>
+                    @kenrsx
+                </a>
+                <a href="https://linkedin.com/in/kenzieee" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+                    linkedin.com/in/kenzieee
+                </a>
+            </div>
+
+            <a href="#wishes" class="wishes-btn">Click to say your 3 wishes</a>
+        </div>
+        <div class="scroll-hint" aria-hidden="true">↓</div>
+    </header>
+
+    <!-- ========== 2. REPOS ========== -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">See my projects</h2>
+            <p class="section-subtitle">Repositori publik terbaru dari GitHub saya.</p>
+            <div id="repo-list" class="repo-list">
+                <div class="loading">Memuat repositori...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 3. FORM ========== -->
+    <section id="wishes">
+        <div class="container">
+            <h2 class="section-title">Say your 3 wishes</h2>
+            <p class="section-subtitle">Ceritakan apa yang ingin kamu wujudkan bareng AI. Saya baca semua pesan.</p>
+
+            <form class="contact-form" action="https://api.staticforms.dev/submit" method="POST">
+                <input type="hidden" name="apiKey" value="sf_ce3b357d18274a7a371f4ddc" />
+                <input type="hidden" name="subject" value="Ahmad Kenzie Aryasatya submission" />
+
+                <label>Nama
+                    <input type="text" name="name" required placeholder="Nama kamu" autocomplete="name" />
+                </label>
+
+                <label>Email
+                    <input type="email" name="email" required placeholder="kamu@email.com" autocomplete="email" />
+                </label>
+
+                <label>Tiga permintaanmu
+                    <textarea name="message" required placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea>
+                </label>
+
+                <button type="submit">Kirim wishes</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            © <span id="year"></span> Ahmad Kenzie Aryasatya
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const username = 'kenrsx';
+        const container = document.getElementById('repo-list');
+
+        fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`)
+            .then(response => {
+                if (!response.ok) throw new Error('Gagal mengambil data');
+                return response.json();
+            })
+            .then(repos => {
+              const publicRepos = repos
+                  .filter(repo => !repo.private)
+                  .filter(repo => repo.name !== `${username}.github.io`)
+                  .filter(repo => {
+                      const desc = (repo.description || '').trimStart();
+                      // Sembunyikan hanya jika deskripsi ADA dan diawali titik.
+                      // Deskripsi kosong/null tetap ditampilkan.
+                      return !desc.startsWith('.');
+                  });
+
+                if (publicRepos.length === 0) {
+                    container.innerHTML = '<p class="loading">Belum ada repositori publik.</p>';
+                    return;
+                }
+
+                container.innerHTML = publicRepos.map(repo => {
+                    const hasDesc = repo.description && repo.description.trim().length > 0;
+                    const desc = hasDesc
+                        ? `<p class="repo-desc">${escapeHtml(repo.description)}</p>`
+                        : `<p class="repo-desc empty">Tidak ada deskripsi</p>`;
+                    const lang = repo.language
+                        ? `<span>${escapeHtml(repo.language)}</span>`
+                        : '';
+                    const date = new Date(repo.updated_at).toLocaleDateString('id-ID', {
+                        year: 'numeric', month: 'short', day: 'numeric'
+                    });
+                
+                    // Repo dengan Pages aktif → github.io/[repo]/ ; lainnya → halaman GitHub
+                    const href = repo.has_pages
+                        ? `https://${username}.github.io/${repo.name}/`
+                        : repo.html_url;
+                
+                    return `
+                        <a href="${href}" target="_blank" rel="noopener" class="repo-card">
+                            <span class="repo-name">${escapeHtml(repo.name)}</span>
+                            ${desc}
+                            <div class="repo-meta">
+                                ${lang}
+                                <span>${repo.stargazers_count} stars</span>
+                                <span>${repo.forks_count} forks</span>
+                                <span>Updated ${date}</span>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+            })
+            .catch(error => {
+                container.innerHTML = `<p class="error">Gagal memuat repositori: ${escapeHtml(error.message)}. Coba refresh halaman.</p>`;
+            });
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+    </script>
+
+</body>
+</html>
