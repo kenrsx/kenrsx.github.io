@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,513 +8,428 @@
     <meta property="og:title" content="Kenzie · Fintech & AI">
     <meta property="og:description" content="Accounting student by day, wrestling with AI by night.">
     <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
     <style>
+        /* ---------- THEME TOKENS ---------- */
         :root {
-            --bg: #0d0b14;
-            --bg-card: #181425;
-            --border: #2d2545;
-            --text: #f0ecf8;
-            --text-muted: #9d93b8;
-            --accent: #7c5cfc;
-            --accent-hover: #9b7fff;
-            --accent2: #ff6b9d;
-            --accent3: #4ecdc4;
-            --space-1: 8px;
-            --space-2: 16px;
-            --space-3: 24px;
-            --space-4: 32px;
-            --space-5: 48px;
-            --space-6: 64px;
+            color-scheme: light;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        [data-bs-theme="light"] {
+            --bs-body-bg: #fafafb;
+            --bs-body-color: #374151;
+            --bs-secondary-color: #6b7280;
+            --bs-tertiary-color: #9ca3af;
+            --bs-border-color: #e5e7eb;
+            --bs-border-color-translucent: rgba(0, 0, 0, 0.06);
+
+            /* Red, deepened for AA contrast on white */
+            --bs-primary: #dc2626;
+            --bs-primary-rgb: 220, 38, 38;
+            --bs-primary-bg-subtle: rgba(220, 38, 38, 0.08);
+            --bs-primary-border-subtle: rgba(220, 38, 38, 0.25);
+            --bs-primary-text-emphasis: #b91c1c;
+
+            --bs-link-color-rgb: 220, 38, 38;
+            --bs-link-hover-color-rgb: 153, 27, 27;
+
+            --bs-card-bg: #ffffff;
+            --bs-card-border-color: #e5e7eb;
+            --bs-emphasis-color: #111827;
+            --bs-heading-color: #111827;
+
+            --bs-secondary-bg: #f3f4f6;
+        }
+
+        /* Bootstrap 5.3 buttons still carry literal hex, so map them manually */
+        .btn-primary {
+            --bs-btn-color: #fff;
+            --bs-btn-bg: #dc2626;
+            --bs-btn-border-color: #dc2626;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #b91c1c;
+            --bs-btn-hover-border-color: #b91c1c;
+            --bs-btn-active-color: #fff;
+            --bs-btn-active-bg: #991b1b;
+            --bs-btn-active-border-color: #991b1b;
+            --bs-btn-disabled-bg: #dc2626;
+            --bs-btn-disabled-border-color: #dc2626;
+            --bs-btn-focus-shadow-rgb: 220, 38, 38;
+        }
+
         html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
-            overflow-x: hidden;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -10%, rgba(220, 38, 38, 0.08), transparent 70%),
+                radial-gradient(ellipse 60% 40% at 90% 15%, rgba(244, 63, 94, 0.06), transparent 70%),
+                var(--bs-body-bg);
+            background-attachment: fixed;
+            min-height: 100vh;
         }
-        .container { max-width: 640px; margin: 0 auto; padding: 0 var(--space-3); position: relative; z-index: 1; }
 
-        /* ---------- FUN BACKGROUND ---------- */
-        .blob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.35;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .blob-1 {
-            width: 400px; height: 400px;
-            background: var(--accent);
-            top: -100px; left: -100px;
-            animation: float 8s ease-in-out infinite;
-        }
-        .blob-2 {
-            width: 350px; height: 350px;
-            background: var(--accent2);
-            bottom: -50px; right: -100px;
-            animation: float 10s ease-in-out infinite reverse;
-        }
-        .blob-3 {
-            width: 250px; height: 250px;
-            background: var(--accent3);
-            top: 50%; left: 60%;
-            animation: float 12s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
         @media (prefers-reduced-motion: reduce) {
-            .blob { animation: none; }
+            html { scroll-behavior: auto; }
+            * { transition: none !important; animation: none !important; }
+        }
+
+        /* Scroll offset for sticky navbar */
+        section, header { scroll-margin-top: 72px; }
+
+        /* ---------- NAVBAR ---------- */
+        .navbar-blur {
+            backdrop-filter: saturate(180%) blur(14px);
+            -webkit-backdrop-filter: saturate(180%) blur(14px);
+            background-color: rgba(250, 250, 251, 0.8) !important;
+        }
+        .navbar-brand-dot {
+            color: var(--bs-primary);
+            font-weight: 800;
+        }
+        .navbar .nav-link {
+            color: #4b5563;
+            font-weight: 500;
+        }
+        .navbar .nav-link:hover,
+        .navbar .nav-link:focus {
+            color: var(--bs-primary);
+        }
+        .navbar-toggler {
+            border-color: var(--bs-border-color);
         }
 
         /* ---------- HERO ---------- */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: var(--space-6) 0;
+            padding-top: 5rem;
+            padding-bottom: 5rem;
             position: relative;
         }
-        .avatar-wrap {
-            position: relative;
-            margin-bottom: var(--space-3);
+        @media (min-width: 992px) {
+            .hero { padding-top: 7rem; padding-bottom: 7rem; }
+        }
+
+        .hero-title {
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            color: #0f172a;
+        }
+
+        .hero-lead {
+            max-width: 560px;
+            font-size: 1.0625rem;
+        }
+
+        /* Avatar ring */
+        .avatar-ring {
             display: inline-block;
+            padding: 3px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #f43f5e);
+            box-shadow: 0 8px 32px rgba(220, 38, 38, 0.18);
         }
-        .avatar {
-            width: 130px;
-            height: 130px;
+        .avatar-ring img {
+            display: block;
+            width: 132px;
+            height: 132px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid transparent;
-            background: var(--bg-card);
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s ease;
+            border: 3px solid #ffffff;
+            transition: transform 0.35s ease;
         }
-        .avatar-wrap::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            background: conic-gradient(var(--accent), var(--accent2), var(--accent3), var(--accent));
-            animation: spin 4s linear infinite;
-            z-index: 0;
-        }
-        .avatar-wrap:hover .avatar {
-            transform: scale(1.05) rotate(-3deg);
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            .avatar-wrap::before { animation: none; }
+        .avatar-ring:hover img {
+            transform: scale(1.04);
         }
 
-        .hero h1 {
-            font-size: clamp(1.875rem, 5vw, 2.5rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.15;
-            margin-bottom: var(--space-1);
-            background: linear-gradient(135deg, var(--text) 0%, var(--accent2) 50%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-wrap: balance;
+        /* Social buttons */
+        .social-btn {
+            --bs-btn-color: #374151;
+            --bs-btn-bg: #ffffff;
+            --bs-btn-border-color: #e5e7eb;
+            --bs-btn-hover-color: #b91c1c;
+            --bs-btn-hover-bg: rgba(220, 38, 38, 0.06);
+            --bs-btn-hover-border-color: #fca5a5;
+            --bs-btn-active-bg: rgba(220, 38, 38, 0.1);
+            --bs-btn-active-border-color: #f87171;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
-        .hero .niche {
-            font-size: 0.875rem;
-            color: var(--accent3);
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: var(--space-3);
-        }
-        .hero p.desc {
-            color: var(--text-muted);
-            max-width: 460px;
-            margin: 0 auto var(--space-4);
-            font-size: 1rem;
-            text-wrap: pretty;
-        }
-        .socials {
-            display: flex;
-            gap: var(--space-2);
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: var(--space-4);
-        }
-        .socials a {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-1);
-            color: var(--text);
-            text-decoration: none;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 10px var(--space-2);
-            border-radius: 12px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-        }
-        .socials a:hover {
-            border-color: var(--accent);
-            transform: translateY(-3px) rotate(-1deg);
-            box-shadow: 0 8px 20px rgba(124, 92, 252, 0.3);
-        }
-        .socials a:nth-child(2):hover {
-            border-color: var(--accent2);
-            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.3);
-        }
-        .socials a:nth-child(3):hover {
-            border-color: var(--accent3);
-            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.3);
-        }
-        .socials svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
-
-        .wishes-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-            color: #fff;
-            text-decoration: none;
-            padding: 15px var(--space-4);
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 0.9375rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(124, 92, 252, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-        .wishes-btn::before {
-            content: '✨';
-            position: absolute;
-            left: 12px;
-            opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-        .wishes-btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 30px rgba(124, 92, 252, 0.5);
-        }
-        .wishes-btn:hover::before {
-            opacity: 1;
-            transform: translateX(0) rotate(-15deg);
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(220, 38, 38, 0.12);
         }
 
-        .scroll-hint {
-            position: absolute;
-            bottom: var(--space-4);
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            animation: bounce 2s infinite;
-        }
-        @media (prefers-reduced-motion: reduce) {
-            .scroll-hint { animation: none; }
-            html { scroll-behavior: auto; }
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(8px); }
-        }
-
-        /* ---------- SECTIONS ---------- */
-        section { padding: var(--space-6) 0; position: relative; z-index: 1; }
-        .section-title {
-            font-size: 1.75rem;
-            font-weight: 800;
+        /* ---------- SECTION TITLES ---------- */
+        .section-heading {
             letter-spacing: -0.02em;
             line-height: 1.2;
-            margin-bottom: var(--space-1);
-            text-wrap: balance;
-        }
-        .section-title::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 1.6rem;
-            background: linear-gradient(180deg, var(--accent), var(--accent2));
-            border-radius: 4px;
-            margin-right: 10px;
-            vertical-align: middle;
-            transform: translateY(-2px);
-        }
-        .section-subtitle {
-            color: var(--text-muted);
-            font-size: 0.9375rem;
-            margin-bottom: var(--space-4);
-            text-wrap: pretty;
+            color: #0f172a;
         }
 
-        /* ---------- REPOS ---------- */
-        .repo-list { display: grid; gap: var(--space-2); }
+        /* ---------- REPO CARDS ---------- */
         .repo-card {
-            display: block;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: var(--space-2) var(--space-3);
-            text-decoration: none;
             color: inherit;
-            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
-        .repo-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--accent), var(--accent3));
-            opacity: 0;
-            transition: opacity 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
         }
         .repo-card:hover,
         .repo-card:focus-visible {
-            border-color: var(--accent);
-            transform: translateY(-3px) rotate(-0.5deg);
-            box-shadow: 0 10px 25px rgba(124, 92, 252, 0.2);
-        }
-        .repo-card:hover::after {
-            opacity: 1;
+            transform: translateY(-3px);
+            border-color: #fca5a5 !important;
+            box-shadow: 0 12px 28px rgba(220, 38, 38, 0.12);
+            outline: none;
         }
         .repo-card:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
+            box-shadow: 0 0 0 0.25rem rgba(220, 38, 38, 0.25), 0 12px 28px rgba(220, 38, 38, 0.12);
         }
-        .repo-name {
-            font-size: 1.0625rem;
+        .repo-card .card-title {
+            color: #b91c1c;
             font-weight: 700;
-            color: var(--accent-hover);
-            margin-bottom: 0;
         }
-        .repo-desc {
-            color: var(--text-muted);
-            font-size: 0.9375rem;
-            margin: var(--space-1) 0;
-            text-wrap: pretty;
+        .repo-card .card-text {
+            color: #6b7280;
         }
-        .repo-desc.empty { opacity: 0.6; font-style: italic; }
-        .repo-meta {
+        .repo-card .repo-meta {
+            color: #6b7280;
             font-size: 0.8125rem;
-            color: var(--text-muted);
-            display: flex;
-            gap: var(--space-2);
-            flex-wrap: wrap;
         }
-        .repo-meta span {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+
+        /* Language dot */
+        .lang-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+            vertical-align: middle;
+            margin-right: 6px;
         }
-        .loading, .error {
-            text-align: center;
-            color: var(--text-muted);
-            padding: var(--space-4);
-            font-size: 0.9375rem;
-        }
-        .error { color: #ff6b6b; }
 
         /* ---------- FORM ---------- */
-        .contact-form {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: var(--space-3);
-            position: relative;
-            overflow: hidden;
+        .form-card {
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
         }
-        .contact-form::before {
+        .form-card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+            border-radius: var(--bs-card-border-radius) var(--bs-card-border-radius) 0 0;
+            background: linear-gradient(90deg, #dc2626, #f43f5e, #fb923c);
         }
-        .contact-form label {
-            display: block;
-            font-size: 0.8125rem;
+        .form-control {
+            background-color: #ffffff;
+            border-color: #e5e7eb;
+            color: #111827;
+        }
+        .form-control::placeholder {
+            color: #9ca3af;
+        }
+        .form-control:focus {
+            background-color: #ffffff;
+            border-color: #fca5a5;
+            box-shadow: 0 0 0 0.25rem rgba(220, 38, 38, 0.15);
+        }
+        .form-label {
             font-weight: 600;
-            margin-bottom: var(--space-2);
-            color: var(--text-muted);
-        }
-        .contact-form input,
-        .contact-form textarea {
-            display: block;
-            width: 100%;
-            margin-top: var(--space-1);
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px 14px;
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .contact-form input:focus,
-        .contact-form textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.2);
-        }
-        .contact-form textarea { resize: vertical; min-height: 100px; }
-        .contact-form button {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-            color: #fff;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 1rem;
-            font-family: inherit;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(124, 92, 252, 0.3);
-        }
-        .contact-form button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(124, 92, 252, 0.45);
-        }
-        .contact-form button:active {
-            transform: translateY(0);
+            font-size: 0.875rem;
+            color: #4b5563;
         }
 
-        footer {
-            text-align: center;
-            padding: var(--space-4) 0;
-            color: var(--text-muted);
-            font-size: 0.8125rem;
-            border-top: 1px solid var(--border);
-            position: relative;
-            z-index: 1;
+        /* ---------- FOOTER ---------- */
+        .footer-link {
+            color: var(--bs-secondary-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
         }
-
-        /* ---------- WIGGLE ANIMATION ---------- */
-        .wiggle {
-            animation: wiggle 0.5s ease-in-out;
-        }
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-3deg); }
-            75% { transform: rotate(3deg); }
+        .footer-link:hover {
+            color: var(--bs-primary);
         }
     </style>
 </head>
 <body>
 
-    <!-- Fun floating blobs -->
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-
-    <!-- ========== 1. HERO ========== -->
-    <header class="hero">
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar navbar-expand-md sticky-top border-bottom navbar-blur">
         <div class="container">
-            <div class="avatar-wrap">
-                <img
-                    src="https://github.com/kenrsx.png"
-                    alt="Foto profil Kenzie"
-                    class="avatar"
-                />
+            <a class="navbar-brand fw-bold text-dark" href="#top">
+                Kenzie<span class="navbar-brand-dot">.</span>
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navMenu"
+                    aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto align-items-md-center gap-2 pt-3 pt-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#wishes">Wishes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-sm btn-primary px-3" href="#wishes">
+                            Get in touch
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <h1>Ahmad Kenzie Aryasatya</h1>
-            <p class="niche">⚡ Financial Technology ⚡</p>
-            <p class="desc">
-                Accounting student by day, wrestling with AI by night.
-                Helping people collaborate better with AI in their daily life.
-            </p>
-
-            <div class="socials">
-                <a href="https://instagram.com/kenrsx" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58 0 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85 0-3.2.01-3.58.07-4.85.15-3.23 1.66-4.77 4.92-4.92 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm6.4-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg>
-                    @kenrsx
-                </a>
-                <a href="https://linkedin.com/in/kenzieee" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
-                    linkedin
-                </a>
-                <a href="https://github.com/kenrsx" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-                    github
-                </a>
-            </div>
-
-            <a href="#wishes" class="wishes-btn">Click to say your 3 wishes</a>
         </div>
-        <div class="scroll-hint" aria-hidden="true">↓</div>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <header class="hero" id="top">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+
+                    <div class="d-flex justify-content-center mb-4">
+                        <div class="avatar-ring">
+                            <img src="https://github.com/kenrsx.png" alt="Foto profil Kenzie">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="badge bg-primary-subtle text-primary-emphasis border border-primary-subtle rounded-pill px-3 py-2 fw-semibold">
+                            <i class="bi bi-lightning-charge-fill me-1"></i>Financial Technology
+                        </span>
+                    </div>
+
+                    <h1 class="display-4 fw-bold hero-title mb-3">
+                        Ahmad Kenzie Aryasatya
+                    </h1>
+
+                    <p class="lead text-secondary hero-lead mx-auto mb-4">
+                        Accounting student by day, wrestling with AI by night.
+                        Helping people collaborate better with AI in their daily life.
+                    </p>
+
+                    <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                        <a href="https://instagram.com/kenrsx" target="_blank" rel="noopener"
+                           class="btn btn-sm social-btn px-3 py-2">
+                            <i class="bi bi-instagram me-1"></i> @kenrsx
+                        </a>
+                        <a href="https://linkedin.com/in/kenzieee" target="_blank" rel="noopener"
+                           class="btn btn-sm social-btn px-3 py-2">
+                            <i class="bi bi-linkedin me-1"></i> linkedin
+                        </a>
+                        <a href="https://github.com/kenrsx" target="_blank" rel="noopener"
+                           class="btn btn-sm social-btn px-3 py-2">
+                            <i class="bi bi-github me-1"></i> github
+                        </a>
+                    </div>
+
+                    <a href="#wishes" class="btn btn-primary btn-lg px-4">
+                        Say your 3 wishes <i class="bi bi-stars ms-1"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
     </header>
 
-    <!-- ========== 2. REPOS ========== -->
-    <section id="projects">
-        <div class="container">
-            <h2 class="section-title">See my projects</h2>
-            <p class="section-subtitle">Repositori publik terbaru dari GitHub saya.</p>
-            <div id="repo-list" class="repo-list">
-                <div class="loading">Memuat repositori...</div>
+    <!-- ========== PROJECTS ========== -->
+    <section id="projects" class="py-5 border-top">
+        <div class="container py-lg-4">
+            <div class="row mb-4">
+                <div class="col-lg-8">
+                    <h2 class="h2 fw-bold section-heading border-start border-4 border-primary ps-3 mb-2">
+                        See my projects
+                    </h2>
+                    <p class="text-secondary mb-0 ps-3">
+                        Repositori publik terbaru dari GitHub saya.
+                    </p>
+                </div>
+            </div>
+
+            <div id="repo-list" class="row row-cols-1 row-cols-md-2 g-3">
+                <div class="col-12 text-center text-secondary py-5">
+                    <div class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></div>
+                    Memuat repositori…
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== 3. FORM ========== -->
-    <section id="wishes">
-        <div class="container">
-            <h2 class="section-title">Say your 3 wishes</h2>
-            <p class="section-subtitle">Ceritakan apa yang ingin kamu wujudkan bareng AI. Saya baca semua pesan.</p>
+    <!-- ========== WISHES FORM ========== -->
+    <section id="wishes" class="py-5 border-top">
+        <div class="container py-lg-4">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
 
-            <form class="contact-form" action="https://api.staticforms.dev/submit" method="POST">
-                <input type="hidden" name="apiKey" value="sf_ce3b357d18274a7a371f4ddc" />
-                <input type="hidden" name="subject" value="Ahmad Kenzie Aryasatya submission" />
+                    <h2 class="h2 fw-bold section-heading border-start border-4 border-primary ps-3 mb-2">
+                        Say your 3 wishes
+                    </h2>
+                    <p class="text-secondary mb-4 ps-3">
+                        Ceritakan apa yang ingin kamu wujudkan bareng AI. Saya baca semua pesan.
+                    </p>
 
-                <label>Nama
-                    <input type="text" name="name" required placeholder="Nama kamu" autocomplete="name" />
-                </label>
+                    <div class="card border overflow-hidden form-card position-relative">
+                        <div class="card-body p-4 p-md-5">
+                            <form action="https://api.staticforms.dev/submit" method="POST">
+                                <input type="hidden" name="apiKey" value="sf_ce3b357d18274a7a371f4ddc">
+                                <input type="hidden" name="subject" value="Ahmad Kenzie Aryasatya submission">
 
-                <label>Email
-                    <input type="email" name="email" required placeholder="kamu@email.com" autocomplete="email" />
-                </label>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="name">Nama</label>
+                                        <input type="text" id="name" name="name" class="form-control"
+                                               placeholder="Nama kamu" autocomplete="name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="email">Email</label>
+                                        <input type="email" id="email" name="email" class="form-control"
+                                               placeholder="kamu@email.com" autocomplete="email" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label" for="message">Tiga permintaanmu</label>
+                                        <textarea id="message" name="message" class="form-control" rows="5"
+                                                  placeholder="1. ...&#10;2. ...&#10;3. ..." required></textarea>
+                                    </div>
+                                    <div class="col-12 pt-2">
+                                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                                            Kirim wishes <i class="bi bi-stars ms-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-                <label>Tiga permintaanmu
-                    <textarea name="message" required placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea>
-                </label>
-
-                <button type="submit">Kirim wishes ✨</button>
-            </form>
+                </div>
+            </div>
         </div>
     </section>
 
-    <footer>
+    <!-- ========== FOOTER ========== -->
+    <footer class="border-top py-4">
         <div class="container">
-            © <span id="year"></span> Ahmad Kenzie Aryasatya
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-secondary small">
+                <span>© <span id="year"></span> Ahmad Kenzie Aryasatya</span>
+                <span>
+                    Built with <i class="bi bi-bootstrap-fill text-primary"></i> Bootstrap
+                </span>
+            </div>
         </div>
     </footer>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Fun wiggle on avatar click
-        const avatar = document.querySelector('.avatar');
-        if (avatar) {
-            avatar.addEventListener('click', () => {
-                avatar.classList.add('wiggle');
-                setTimeout(() => avatar.classList.remove('wiggle'), 500);
-            });
-        }
 
         const username = 'kenrsx';
         const container = document.getElementById('repo-list');
@@ -525,54 +440,70 @@
                 return response.json();
             })
             .then(repos => {
-              const publicRepos = repos
-                  .filter(repo => !repo.private)
-                  .filter(repo => repo.name !== `${username}.github.io`)
-                  .filter(repo => {
-                      const desc = (repo.description || '').trimStart();
-                      // Sembunyikan hanya jika deskripsi ADA dan diawali titik.
-                      // Deskripsi kosong/null tetap ditampilkan.
-                      return !desc.startsWith('.');
-                  });
+                const publicRepos = repos
+                    .filter(repo => !repo.private)
+                    .filter(repo => repo.name !== `${username}.github.io`)
+                    .filter(repo => {
+                        const desc = (repo.description || '').trimStart();
+                        return !desc.startsWith('.');
+                    });
 
                 if (publicRepos.length === 0) {
-                    container.innerHTML = '<p class="loading">Belum ada repositori publik.</p>';
+                    container.innerHTML = `
+                        <div class="col-12 text-center text-secondary py-5">
+                            <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+                            Belum ada repositori publik.
+                        </div>`;
                     return;
                 }
 
                 container.innerHTML = publicRepos.map(repo => {
                     const hasDesc = repo.description && repo.description.trim().length > 0;
                     const desc = hasDesc
-                        ? `<p class="repo-desc">${escapeHtml(repo.description)}</p>`
-                        : `<p class="repo-desc empty">Tidak ada deskripsi</p>`;
+                        ? `<p class="card-text mb-3">${escapeHtml(repo.description)}</p>`
+                        : `<p class="card-text mb-3 fst-italic opacity-75">Tidak ada deskripsi</p>`;
+
                     const lang = repo.language
-                        ? `<span>${escapeHtml(repo.language)}</span>`
+                        ? `<span><span class="lang-dot"></span>${escapeHtml(repo.language)}</span>`
                         : '';
+
                     const date = new Date(repo.updated_at).toLocaleDateString('id-ID', {
                         year: 'numeric', month: 'short', day: 'numeric'
                     });
-                
-                    // Repo dengan Pages aktif → github.io/[repo]/ ; lainnya → halaman GitHub
+
                     const href = repo.has_pages
                         ? `https://${username}.github.io/${repo.name}/`
                         : repo.html_url;
-                
+
                     return `
-                        <a href="${href}" target="_blank" rel="noopener" class="repo-card">
-                            <span class="repo-name">${escapeHtml(repo.name)}</span>
-                            ${desc}
-                            <div class="repo-meta">
-                                ${lang}
-                                <span>⭐ ${repo.stargazers_count}</span>
-                                <span>🍴 ${repo.forks_count}</span>
-                                <span>🕐 ${date}</span>
-                            </div>
-                        </a>
+                        <div class="col">
+                            <a href="${href}" target="_blank" rel="noopener"
+                               class="card h-100 text-decoration-none repo-card">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title mb-2">
+                                        <i class="bi bi-folder2 me-1"></i>${escapeHtml(repo.name)}
+                                    </h5>
+                                    ${desc}
+                                    <div class="repo-meta d-flex flex-wrap gap-3 mt-auto pt-2">
+                                        ${lang}
+                                        <span><i class="bi bi-star me-1"></i>${repo.stargazers_count}</span>
+                                        <span><i class="bi bi-signpost-split me-1"></i>${repo.forks_count}</span>
+                                        <span><i class="bi bi-clock me-1"></i>${date}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     `;
                 }).join('');
             })
             .catch(error => {
-                container.innerHTML = `<p class="error">Gagal memuat repositori: ${escapeHtml(error.message)}. Coba refresh halaman.</p>`;
+                container.innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-danger d-flex align-items-center gap-2 mb-0" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            <div>Gagal memuat repositori: ${escapeHtml(error.message)}. Coba refresh halaman.</div>
+                        </div>
+                    </div>`;
             });
 
         function escapeHtml(str) {
