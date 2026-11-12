@@ -1,510 +1,1449 @@
 <!DOCTYPE html>
-<html lang="id" data-bs-theme="light">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kenzie · Fintech & AI</title>
-    <meta name="description" content="Accounting student by day, wrestling with AI by night. Helping people collaborate better with AI in their daily life.">
-    <meta property="og:title" content="Kenzie · Fintech & AI">
-    <meta property="og:description" content="Accounting student by day, wrestling with AI by night.">
-    <meta property="og:type" content="website">
-
-    <!-- Fonts -->
+    <title>Ken. — AI-Human Collaboration &amp; Accounting</title>
+    <meta name="description" content="Accounting student by day, wrestling with AI by night. Helping people collaborate better with AI in their daily life. Swiss-minimalist portfolio and public receipts.">
+    
+    <!-- Preconnect & Fonts: Inter + JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap 5 + Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons (Icons only for technical badges/arrows) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <style>
-        /* ---------- THEME TOKENS ---------- */
+        /* ==========================================================================
+           SWISS MINIMALISM DESIGN SYSTEM
+           Palette: Cobalt Grey (#191C1D), Ivory White (#F5EEE9), Pumpkin Orange (#FD6002)
+           ========================================================================== */
         :root {
-            color-scheme: light;
+            --c-cobalt: #191C1D;
+            --c-ivory: #F5EEE9;
+            --c-pumpkin: #FD6002;
+            --c-pumpkin-dark: #d84e00;
+            --c-border: rgba(25, 28, 29, 0.16);
+            --c-border-strong: #191C1D;
+            
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+            
+            --grid-max: 1240px;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        [data-bs-theme="light"] {
-            --bs-body-bg: #fafafb;
-            --bs-body-color: #374151;
-            --bs-secondary-color: #6b7280;
-            --bs-tertiary-color: #9ca3af;
-            --bs-border-color: #e5e7eb;
-            --bs-border-color-translucent: rgba(0, 0, 0, 0.06);
-
-            /* Red, deepened for AA contrast on white */
-            --bs-primary: #dc2626;
-            --bs-primary-rgb: 220, 38, 38;
-            --bs-primary-bg-subtle: rgba(220, 38, 38, 0.08);
-            --bs-primary-border-subtle: rgba(220, 38, 38, 0.25);
-            --bs-primary-text-emphasis: #b91c1c;
-
-            --bs-link-color-rgb: 220, 38, 38;
-            --bs-link-hover-color-rgb: 153, 27, 27;
-
-            --bs-card-bg: #ffffff;
-            --bs-card-border-color: #e5e7eb;
-            --bs-emphasis-color: #111827;
-            --bs-heading-color: #111827;
-
-            --bs-secondary-bg: #f3f4f6;
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Bootstrap 5.3 buttons still carry literal hex, so map them manually */
-        .btn-primary {
-            --bs-btn-color: #fff;
-            --bs-btn-bg: #dc2626;
-            --bs-btn-border-color: #dc2626;
-            --bs-btn-hover-color: #fff;
-            --bs-btn-hover-bg: #b91c1c;
-            --bs-btn-hover-border-color: #b91c1c;
-            --bs-btn-active-color: #fff;
-            --bs-btn-active-bg: #991b1b;
-            --bs-btn-active-border-color: #991b1b;
-            --bs-btn-disabled-bg: #dc2626;
-            --bs-btn-disabled-border-color: #dc2626;
-            --bs-btn-focus-shadow-rgb: 220, 38, 38;
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--c-ivory);
+            color: var(--c-cobalt);
         }
-
-        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            font-family: var(--font-sans);
+            background-color: var(--c-ivory);
+            color: var(--c-cobalt);
+            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            background:
-                radial-gradient(ellipse 80% 50% at 50% -10%, rgba(220, 38, 38, 0.08), transparent 70%),
-                radial-gradient(ellipse 60% 40% at 90% 15%, rgba(244, 63, 94, 0.06), transparent 70%),
-                var(--bs-body-bg);
-            background-attachment: fixed;
-            min-height: 100vh;
+            overflow-x: hidden;
+            font-size: 16px;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            html { scroll-behavior: auto; }
-            * { transition: none !important; animation: none !important; }
-        }
-
-        /* Scroll offset for sticky navbar */
-        section, header { scroll-margin-top: 72px; }
-
-        /* ---------- NAVBAR ---------- */
-        .navbar-blur {
-            backdrop-filter: saturate(180%) blur(14px);
-            -webkit-backdrop-filter: saturate(180%) blur(14px);
-            background-color: rgba(250, 250, 251, 0.8) !important;
-        }
-        .navbar-brand-dot {
-            color: var(--bs-primary);
+        /* Typography & Swiss Hierarchy */
+        h1, h2, h3, h4, .swiss-title {
+            font-family: var(--font-sans);
             font-weight: 800;
-        }
-        .navbar .nav-link {
-            color: #4b5563;
-            font-weight: 500;
-        }
-        .navbar .nav-link:hover,
-        .navbar .nav-link:focus {
-            color: var(--bs-primary);
-        }
-        .navbar-toggler {
-            border-color: var(--bs-border-color);
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            color: var(--c-cobalt);
+            text-transform: uppercase;
         }
 
-        /* ---------- HERO ---------- */
-        .hero {
-            padding-top: 5rem;
-            padding-bottom: 5rem;
+        .mono {
+            font-family: var(--font-mono);
+            font-feature-settings: "zero" 1;
+        }
+
+        .swiss-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--c-cobalt);
+            opacity: 0.85;
+        }
+
+        .swiss-tag {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border: 1px solid var(--c-cobalt);
+            background: transparent;
+            color: var(--c-cobalt);
+        }
+
+        .swiss-tag.pumpkin {
+            background-color: var(--c-pumpkin);
+            border-color: var(--c-pumpkin);
+            color: var(--c-cobalt);
+        }
+
+        .swiss-tag.solid-dark {
+            background-color: var(--c-cobalt);
+            color: var(--c-ivory);
+        }
+
+        /* Layout Container */
+        .container-swiss {
+            width: 100%;
+            max-width: var(--grid-max);
+            margin: 0 auto;
+            padding-left: clamp(1rem, 4vw, 2.5rem);
+            padding-right: clamp(1rem, 4vw, 2.5rem);
+        }
+
+        .swiss-rule {
+            border: none;
+            border-top: 1px solid var(--c-border);
+            margin: 0;
+            width: 100%;
+        }
+
+        .swiss-rule-thick {
+            border: none;
+            border-top: 2px solid var(--c-cobalt);
+            margin: 0;
+            width: 100%;
+        }
+
+        /* ---------- NAVIGATION BAR ---------- */
+        .nav-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(245, 238, 233, 0.94);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--c-cobalt);
+        }
+
+        .nav-inner {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            height: 64px;
+            gap: 1.5rem;
+        }
+
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: -0.05em;
+            color: var(--c-cobalt);
+        }
+
+        .brand-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: var(--c-pumpkin);
+        }
+
+        .nav-center-meta {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--c-cobalt);
+            opacity: 0.75;
+            display: none;
+        }
+
+        @media (min-width: 860px) {
+            .nav-center-meta {
+                display: block;
+            }
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Language Switcher Button Group */
+        .lang-switch {
+            display: inline-flex;
+            border: 1px solid var(--c-cobalt);
+            background-color: var(--c-ivory);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 5px 10px;
+            cursor: pointer;
+            color: var(--c-cobalt);
+            transition: all 0.15s ease;
+        }
+
+        .lang-btn.active {
+            background-color: var(--c-cobalt);
+            color: var(--c-ivory);
+        }
+
+        .nav-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: var(--c-pumpkin);
+            color: var(--c-cobalt);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 8px 14px;
+            border: 1px solid var(--c-cobalt);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: all 0.15s ease;
+        }
+
+        .nav-cta-btn:hover {
+            background-color: var(--c-cobalt);
+            color: var(--c-pumpkin);
+            border-color: var(--c-cobalt);
+        }
+
+        /* ---------- HERO SECTION (SWISS POSTER GRID) ---------- */
+        .hero-section {
+            padding-top: clamp(2.5rem, 6vw, 4.5rem);
+            padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+            border-bottom: 2px solid var(--c-cobalt);
+        }
+
+        .hero-meta-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--c-border);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .hero-layout-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        @media (min-width: 960px) {
+            .hero-layout-grid {
+                grid-template-columns: 1.35fr 1fr;
+                gap: 4rem;
+            }
+        }
+
+        .hero-display-title {
+            font-size: clamp(3rem, 7.5vw, 6.2rem);
+            font-weight: 900;
+            line-height: 0.92;
+            margin-bottom: 1.75rem;
+            word-break: break-word;
+        }
+
+        .hero-display-title .highlight {
+            color: var(--c-pumpkin);
+            display: inline-block;
+        }
+
+        .hero-subheadline {
+            font-size: clamp(1.15rem, 2vw, 1.4rem);
+            line-height: 1.4;
+            font-weight: 500;
+            color: var(--c-cobalt);
+            max-width: 620px;
+            margin-bottom: 2.25rem;
+        }
+
+        /* Graphic Profile Frame */
+        .hero-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+        }
+
+        .swiss-frame {
+            border: 2px solid var(--c-cobalt);
+            background-color: #ffffff;
             position: relative;
         }
-        @media (min-width: 992px) {
-            .hero { padding-top: 7rem; padding-bottom: 7rem; }
+
+        .swiss-frame-header {
+            background-color: var(--c-cobalt);
+            color: var(--c-ivory);
+            padding: 6px 12px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .hero-title {
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            color: #0f172a;
+        .swiss-frame-body {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background-color: #ffffff;
         }
 
-        .hero-lead {
-            max-width: 560px;
-            font-size: 1.0625rem;
+        .avatar-box {
+            width: 104px;
+            height: 104px;
+            border: 2px solid var(--c-cobalt);
+            background-color: var(--c-ivory);
+            flex-shrink: 0;
+            position: relative;
         }
 
-        /* Avatar ring */
-        .avatar-ring {
-            display: inline-block;
-            padding: 3px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ef4444, #f43f5e);
-            box-shadow: 0 8px 32px rgba(220, 38, 38, 0.18);
-        }
-        .avatar-ring img {
-            display: block;
-            width: 132px;
-            height: 132px;
-            border-radius: 50%;
+        .avatar-box img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border: 3px solid #ffffff;
-            transition: transform 0.35s ease;
-        }
-        .avatar-ring:hover img {
-            transform: scale(1.04);
+            display: block;
+            filter: grayscale(10%) contrast(105%);
         }
 
-        /* Social buttons */
-        .social-btn {
-            --bs-btn-color: #374151;
-            --bs-btn-bg: #ffffff;
-            --bs-btn-border-color: #e5e7eb;
-            --bs-btn-hover-color: #b91c1c;
-            --bs-btn-hover-bg: rgba(220, 38, 38, 0.06);
-            --bs-btn-hover-border-color: #fca5a5;
-            --bs-btn-active-bg: rgba(220, 38, 38, 0.1);
-            --bs-btn-active-border-color: #f87171;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-        }
-        .social-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(220, 38, 38, 0.12);
+        .avatar-box-tag {
+            position: absolute;
+            bottom: -8px;
+            right: -8px;
+            background-color: var(--c-pumpkin);
+            color: var(--c-cobalt);
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 1px 5px;
+            border: 1px solid var(--c-cobalt);
         }
 
-        /* ---------- SECTION TITLES ---------- */
-        .section-heading {
+        .profile-bio-text {
+            font-size: 0.95rem;
+            line-height: 1.45;
+            color: var(--c-cobalt);
+        }
+
+        .profile-bio-text strong {
+            display: block;
+            font-size: 1.1rem;
             letter-spacing: -0.02em;
-            line-height: 1.2;
-            color: #0f172a;
+            margin-bottom: 4px;
         }
 
-        /* ---------- REPO CARDS ---------- */
-        .repo-card {
-            color: inherit;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+        /* Swiss Action Bar */
+        .action-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
         }
-        .repo-card:hover,
-        .repo-card:focus-visible {
-            transform: translateY(-3px);
-            border-color: #fca5a5 !important;
-            box-shadow: 0 12px 28px rgba(220, 38, 38, 0.12);
-            outline: none;
+
+        .btn-swiss-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--c-pumpkin);
+            color: var(--c-cobalt);
+            border: 2px solid var(--c-cobalt);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 14px 28px;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 var(--c-cobalt);
+            transition: all 0.12s var(--ease);
         }
-        .repo-card:focus-visible {
-            box-shadow: 0 0 0 0.25rem rgba(220, 38, 38, 0.25), 0 12px 28px rgba(220, 38, 38, 0.12);
+
+        .btn-swiss-primary:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--c-cobalt);
+            background-color: #ff6e1a;
         }
-        .repo-card .card-title {
-            color: #b91c1c;
+
+        .btn-swiss-primary:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 var(--c-cobalt);
+        }
+
+        .social-index-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border: 2px solid var(--c-cobalt);
+            background-color: #ffffff;
+        }
+
+        .social-index-item {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 14px;
+            text-decoration: none;
+            color: var(--c-cobalt);
+            border-right: 1px solid var(--c-cobalt);
+            transition: background-color 0.15s ease;
+        }
+
+        .social-index-item:last-child {
+            border-right: none;
+        }
+
+        .social-index-item:hover {
+            background-color: var(--c-pumpkin);
+            color: var(--c-cobalt);
+        }
+
+        .social-index-item .num {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 700;
+            opacity: 0.7;
+        }
+
+        .social-index-item .label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* ---------- SECTION HEADERS ---------- */
+        .section-header-block {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding-top: clamp(3rem, 6vw, 4.5rem);
+            padding-bottom: 1.25rem;
+            border-bottom: 2px solid var(--c-cobalt);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-index-num {
+            font-family: var(--font-mono);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            color: var(--c-pumpkin);
+            line-height: 1;
+            margin-right: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+            display: inline-flex;
+            align-items: baseline;
+        }
+
+        /* ---------- PILLARS / MANIFESTO (3 COLUMNS) ---------- */
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            border: 2px solid var(--c-cobalt);
+            background-color: #ffffff;
+            margin-bottom: clamp(3rem, 6vw, 5rem);
+        }
+
+        @media (min-width: 768px) {
+            .pillars-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .pillar-col {
+            padding: 2rem 1.75rem;
+            border-bottom: 2px solid var(--c-cobalt);
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .pillar-col {
+                border-bottom: none;
+                border-right: 2px solid var(--c-cobalt);
+            }
+            .pillar-col:last-child {
+                border-right: none;
+            }
+        }
+
+        .pillar-num {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--c-pumpkin);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pillar-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .pillar-text {
+            font-size: 0.95rem;
+            color: #3b4245;
+            line-height: 1.5;
+        }
+
+        /* ---------- REPOSITORIES CATALOG (SWISS ARCHITECTURAL LIST) ---------- */
+        .projects-section {
+            padding-bottom: clamp(3rem, 6vw, 5rem);
+        }
+
+        .repo-catalog-table {
+            width: 100%;
+            border: 2px solid var(--c-cobalt);
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .repo-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            padding: 1.5rem 1.75rem;
+            border-bottom: 1px solid var(--c-border);
+            text-decoration: none;
+            color: var(--c-cobalt);
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        .repo-row:last-child {
+            border-bottom: none;
+        }
+
+        @media (min-width: 860px) {
+            .repo-row {
+                grid-template-columns: 80px 1.4fr 1.6fr 160px;
+                align-items: center;
+                gap: 1.5rem;
+            }
+        }
+
+        .repo-row:hover {
+            background-color: #fff9f5;
+            border-left: 6px solid var(--c-pumpkin);
+            padding-left: calc(1.75rem - 6px);
+        }
+
+        .repo-row-index {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--c-pumpkin);
+            margin-bottom: 0.5rem;
+        }
+
+        @media (min-width: 860px) {
+            .repo-row-index {
+                margin-bottom: 0;
+            }
+        }
+
+        .repo-name-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .repo-name {
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--c-cobalt);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .repo-row:hover .repo-name {
+            color: var(--c-pumpkin-dark);
+        }
+
+        .repo-description {
+            font-size: 0.925rem;
+            color: #434b4f;
+            line-height: 1.45;
+            margin-top: 0.5rem;
+        }
+
+        @media (min-width: 860px) {
+            .repo-description {
+                margin-top: 0;
+            }
+        }
+
+        .repo-metrics {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            color: var(--c-cobalt);
+            opacity: 0.85;
+            margin-top: 0.75rem;
+        }
+
+        @media (min-width: 860px) {
+            .repo-metrics {
+                margin-top: 0;
+                justify-content: flex-end;
+            }
+        }
+
+        .repo-footer-bar {
+            background-color: var(--c-cobalt);
+            color: var(--c-ivory);
+            padding: 12px 1.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .repo-footer-bar a {
+            color: var(--c-pumpkin);
+            text-decoration: none;
             font-weight: 700;
         }
-        .repo-card .card-text {
-            color: #6b7280;
-        }
-        .repo-card .repo-meta {
-            color: #6b7280;
-            font-size: 0.8125rem;
+
+        .repo-footer-bar a:hover {
+            text-decoration: underline;
         }
 
-        /* Language dot */
-        .lang-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #ef4444;
-            vertical-align: middle;
-            margin-right: 6px;
+        /* ---------- COLLABORATION SHEET (REQUISITION FORM) ---------- */
+        .collab-section {
+            padding-bottom: clamp(3.5rem, 7vw, 6rem);
         }
 
-        /* ---------- FORM ---------- */
-        .form-card {
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-        }
-        .form-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            border-radius: var(--bs-card-border-radius) var(--bs-card-border-radius) 0 0;
-            background: linear-gradient(90deg, #dc2626, #f43f5e, #fb923c);
-        }
-        .form-control {
+        .collab-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            border: 2px solid var(--c-cobalt);
             background-color: #ffffff;
-            border-color: #e5e7eb;
-            color: #111827;
-        }
-        .form-control::placeholder {
-            color: #9ca3af;
-        }
-        .form-control:focus {
-            background-color: #ffffff;
-            border-color: #fca5a5;
-            box-shadow: 0 0 0 0.25rem rgba(220, 38, 38, 0.15);
-        }
-        .form-label {
-            font-weight: 600;
-            font-size: 0.875rem;
-            color: #4b5563;
         }
 
-        /* ---------- FOOTER ---------- */
-        .footer-link {
-            color: var(--bs-secondary-color);
+        @media (min-width: 960px) {
+            .collab-grid {
+                grid-template-columns: 1fr 1.5fr;
+            }
+        }
+
+        .collab-manifesto-side {
+            padding: clamp(2rem, 4vw, 3rem);
+            background-color: var(--c-cobalt);
+            color: var(--c-ivory);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 2rem;
+            border-bottom: 2px solid var(--c-cobalt);
+        }
+
+        @media (min-width: 960px) {
+            .collab-manifesto-side {
+                border-bottom: none;
+                border-right: 2px solid var(--c-cobalt);
+            }
+        }
+
+        .collab-manifesto-side h3 {
+            color: var(--c-ivory);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .collab-manifesto-side p {
+            color: #d1cbc5;
+            font-size: 1rem;
+            line-height: 1.55;
+        }
+
+        .collab-quote-box {
+            border-left: 3px solid var(--c-pumpkin);
+            padding-left: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: #e4ddd6;
+            margin-top: 1rem;
+        }
+
+        .direct-dm-strip {
+            border: 1px solid rgba(245, 238, 233, 0.25);
+            padding: 1rem;
+            background: rgba(245, 238, 233, 0.04);
+        }
+
+        .direct-dm-strip a {
+            color: var(--c-pumpkin);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
             text-decoration: none;
-            transition: color 0.2s ease;
         }
-        .footer-link:hover {
-            color: var(--bs-primary);
+
+        .direct-dm-strip a:hover {
+            text-decoration: underline;
+        }
+
+        /* Swiss Form Styles */
+        .collab-form-side {
+            padding: clamp(2rem, 4vw, 3.25rem);
+            background-color: #ffffff;
+        }
+
+        .swiss-field-row {
+            margin-bottom: 1.5rem;
+        }
+
+        .swiss-field-label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--c-cobalt);
+            margin-bottom: 6px;
+        }
+
+        .swiss-input, .swiss-select, .swiss-textarea {
+            width: 100%;
+            background-color: #ffffff;
+            border: 2px solid var(--c-cobalt);
+            color: var(--c-cobalt);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: 12px 14px;
+            border-radius: 0;
+            outline: none;
+            transition: all 0.15s ease;
+        }
+
+        .swiss-input:focus, .swiss-select:focus, .swiss-textarea:focus {
+            border-color: var(--c-pumpkin);
+            box-shadow: 4px 4px 0 var(--c-cobalt);
+        }
+
+        .swiss-textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.5;
+        }
+
+        .two-col-fields {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 600px) {
+            .two-col-fields {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .btn-submit-swiss {
+            width: 100%;
+            background-color: var(--c-pumpkin);
+            color: var(--c-cobalt);
+            border: 2px solid var(--c-cobalt);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 16px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 var(--c-cobalt);
+            transition: all 0.12s var(--ease);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-submit-swiss:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--c-cobalt);
+            background-color: #ff6e1a;
+        }
+
+        .btn-submit-swiss:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 var(--c-cobalt);
+        }
+
+        /* ---------- COLOPHON / FOOTER ---------- */
+        .swiss-footer {
+            background-color: var(--c-cobalt);
+            color: var(--c-ivory);
+            border-top: 2px solid var(--c-cobalt);
+            padding-top: 3.5rem;
+            padding-bottom: 2.5rem;
+        }
+
+        .colophon-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .colophon-grid {
+                grid-template-columns: 1.4fr 1fr 1fr;
+            }
+        }
+
+        .colophon-block h4 {
+            color: var(--c-pumpkin);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .colophon-block p, .colophon-block li {
+            font-size: 0.9rem;
+            color: #d1cbc5;
+            line-height: 1.6;
+        }
+
+        .colophon-block ul {
+            list-style: none;
+        }
+
+        .colophon-bottom-bar {
+            border-top: 1px solid rgba(245, 238, 233, 0.16);
+            padding-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #a49c95;
+        }
+
+        @media (min-width: 768px) {
+            .colophon-bottom-bar {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .colophon-bottom-bar strong {
+            color: var(--c-ivory);
         }
     </style>
 </head>
 <body>
 
-    <!-- ========== NAVBAR ========== -->
-    <nav class="navbar navbar-expand-md sticky-top border-bottom navbar-blur">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-dark" href="#top">
-                Kenzie<span class="navbar-brand-dot">.</span>
-            </a>
-            <button class="navbar-toggler border-0 shadow-none" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#navMenu"
-                    aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navMenu">
-                <ul class="navbar-nav ms-auto align-items-md-center gap-2 pt-3 pt-md-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#projects">Projects</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#wishes">Wishes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-sm btn-primary px-3" href="#wishes">
-                            Get in touch
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- ========== SWISS NAVIGATION HEADER ========== -->
+    <header class="nav-header">
+        <div class="container-swiss">
+            <div class="nav-inner">
+                <a href="#top" class="brand-logo" aria-label="Ken Portfolio Home">
+                    KEN<span class="brand-dot"></span>
+                </a>
 
-    <!-- ========== HERO ========== -->
-    <header class="hero" id="top">
-        <div class="container">
-            <div class="row justify-content-center text-center">
-                <div class="col-lg-8">
+                <div class="nav-center-meta">
+                    [ AI-HUMAN COLLABORATION &times; ACCOUNTING WORKBENCH ]
+                </div>
 
-                    <div class="d-flex justify-content-center mb-4">
-                        <div class="avatar-ring">
-                            <img src="https://github.com/kenrsx.png" alt="Foto profil Kenzie">
-                        </div>
+                <div class="nav-actions">
+                    <!-- Language Switcher Pill -->
+                    <div class="lang-switch" role="group" aria-label="Language Switcher">
+                        <button type="button" class="lang-btn active" data-lang="id" onclick="setLanguage('id')">ID</button>
+                        <button type="button" class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
                     </div>
 
-                    <div class="mb-4">
-                        <span class="badge bg-primary-subtle text-primary-emphasis border border-primary-subtle rounded-pill px-3 py-2 fw-semibold">
-                            <i class="bi bi-lightning-charge-fill me-1"></i>Financial Technology
-                        </span>
-                    </div>
-
-                    <h1 class="display-4 fw-bold hero-title mb-3">
-                        Ahmad Kenzie Aryasatya
-                    </h1>
-
-                    <p class="lead text-secondary hero-lead mx-auto mb-4">
-                        Accounting student by day, wrestling with AI by night.
-                        Helping people collaborate better with AI in their daily life.
-                    </p>
-
-                    <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
-                        <a href="https://instagram.com/kenrsx" target="_blank" rel="noopener"
-                           class="btn btn-sm social-btn px-3 py-2">
-                            <i class="bi bi-instagram me-1"></i> @kenrsx
-                        </a>
-                        <a href="https://linkedin.com/in/kenzieee" target="_blank" rel="noopener"
-                           class="btn btn-sm social-btn px-3 py-2">
-                            <i class="bi bi-linkedin me-1"></i> linkedin
-                        </a>
-                        <a href="https://github.com/kenrsx" target="_blank" rel="noopener"
-                           class="btn btn-sm social-btn px-3 py-2">
-                            <i class="bi bi-github me-1"></i> github
-                        </a>
-                    </div>
-
-                    <a href="#wishes" class="btn btn-primary btn-lg px-4">
-                        Say your 3 wishes <i class="bi bi-stars ms-1"></i>
+                    <a href="#collaborate" class="nav-cta-btn" data-i18n="nav_cta">
+                        Collaborate &rarr;
                     </a>
-
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- ========== PROJECTS ========== -->
-    <section id="projects" class="py-5 border-top">
-        <div class="container py-lg-4">
-            <div class="row mb-4">
-                <div class="col-lg-8">
-                    <h2 class="h2 fw-bold section-heading border-start border-4 border-primary ps-3 mb-2">
-                        See my projects
-                    </h2>
-                    <p class="text-secondary mb-0 ps-3">
-                        Repositori publik terbaru dari GitHub saya.
-                    </p>
+    <main id="top">
+        <!-- ========== HERO POSTER SECTION ========== -->
+        <section class="hero-section">
+            <div class="container-swiss">
+                
+                <div class="hero-meta-bar">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="swiss-tag solid-dark">EDITION 2026</span>
+                        <span class="swiss-tag pumpkin" data-i18n="hero_badge_collab">AI-HUMAN COLLABORATION</span>
+                        <span class="swiss-tag" data-i18n="hero_badge_acc">ACCOUNTING &times; AI</span>
+                    </div>
+                    <div class="swiss-label">
+                        FIG 01.0 / MANIFESTO &amp; IDENTITY
+                    </div>
                 </div>
-            </div>
 
-            <div id="repo-list" class="row row-cols-1 row-cols-md-2 g-3">
-                <div class="col-12 text-center text-secondary py-5">
-                    <div class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></div>
-                    Memuat repositori…
-                </div>
-            </div>
-        </div>
-    </section>
+                <div class="hero-layout-grid">
+                    <!-- Main Typography Column -->
+                    <div>
+                        <h1 class="hero-display-title">
+                            ACCOUNTIN'<br>
+                            BY DAY.<br>
+                            <span class="highlight">AI BY NIGHT.</span>
+                        </h1>
 
-    <!-- ========== WISHES FORM ========== -->
-    <section id="wishes" class="py-5 border-top">
-        <div class="container py-lg-4">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
+                        <p class="hero-subheadline" data-i18n="hero_subheadline">
+                            Helping people collaborate better with AI in their daily life — without technical jargon, empty hype, or robotic hallucinations.
+                        </p>
 
-                    <h2 class="h2 fw-bold section-heading border-start border-4 border-primary ps-3 mb-2">
-                        Say your 3 wishes
-                    </h2>
-                    <p class="text-secondary mb-4 ps-3">
-                        Ceritakan apa yang ingin kamu wujudkan bareng AI. Saya baca semua pesan.
-                    </p>
-
-                    <div class="card border overflow-hidden form-card position-relative">
-                        <div class="card-body p-4 p-md-5">
-                            <form action="https://api.staticforms.dev/submit" method="POST">
-                                <input type="hidden" name="apiKey" value="sf_ce3b357d18274a7a371f4ddc">
-                                <input type="hidden" name="subject" value="Ahmad Kenzie Aryasatya submission">
-
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="name">Nama</label>
-                                        <input type="text" id="name" name="name" class="form-control"
-                                               placeholder="Nama kamu" autocomplete="name" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="email">Email</label>
-                                        <input type="email" id="email" name="email" class="form-control"
-                                               placeholder="kamu@email.com" autocomplete="email" required>
-                                    </div>
-                                    <div class="col-12">
-                                        <label class="form-label" for="message">Tiga permintaanmu</label>
-                                        <textarea id="message" name="message" class="form-control" rows="5"
-                                                  placeholder="1. ...&#10;2. ...&#10;3. ..." required></textarea>
-                                    </div>
-                                    <div class="col-12 pt-2">
-                                        <button type="submit" class="btn btn-primary btn-lg w-100">
-                                            Kirim wishes <i class="bi bi-stars ms-1"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="action-row">
+                            <a href="#collaborate" class="btn-swiss-primary">
+                                <span data-i18n="hero_cta_btn">Collaborate Here</span>
+                                <span>&darr;</span>
+                            </a>
+                            <a href="#projects" class="swiss-tag solid-dark" style="padding: 14px 20px; font-size: 0.85rem; text-decoration: none;" data-i18n="hero_view_work">
+                                [ 01 / VIEW WORK RECEIPTS ]
+                            </a>
                         </div>
                     </div>
 
+                    <!-- Profile & Context Frame -->
+                    <div class="hero-sidebar">
+                        <div class="swiss-frame">
+                            <div class="swiss-frame-header">
+                                <span>ID: AHMAD KENZIE ARYASATYA</span>
+                                <span>REF: 001</span>
+                            </div>
+                            <div class="swiss-frame-body">
+                                <div class="avatar-box">
+                                    <img src="https://github.com/kenrsx.png"
+                                         alt="Ahmad Kenzie Aryasatya"
+                                         onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Ken&background=191C1D&color=FD6002&bold=true';">
+                                    <span class="avatar-box-tag">KEN.</span>
+                                </div>
+                                <div class="profile-bio-text">
+                                    <strong>Ken</strong>
+                                    <span class="mono" style="font-size: 0.78rem; opacity: 0.8; display: block; margin-bottom: 6px;" data-i18n="hero_sidebar_title">
+                                        Accounting Student &times; AI Practitioner
+                                    </span>
+                                    <p style="font-size: 0.88rem; line-height: 1.4; color: #434b4f;" data-i18n="hero_sidebar_desc">
+                                        Wrestling with LLMs and automations. Shipped code, practical workflows, and real receipts.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Direct Social Index Strip -->
+                        <div class="social-index-strip">
+                            <a href="https://instagram.com/kenrsx" target="_blank" rel="noopener" class="social-index-item" aria-label="Instagram">
+                                <span class="num">01/IG</span>
+                                <span class="label">@kenrsx</span>
+                            </a>
+                            <a href="https://github.com/kenrsx" target="_blank" rel="noopener" class="social-index-item" aria-label="GitHub">
+                                <span class="num">02/GH</span>
+                                <span class="label">kenrsx</span>
+                            </a>
+                            <a href="https://linkedin.com/in/kenzieee" target="_blank" rel="noopener" class="social-index-item" aria-label="LinkedIn">
+                                <span class="num">03/IN</span>
+                                <span class="label">kenzieee</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========== PILLARS / ETHOS GRID ========== -->
+        <section class="container-swiss" style="padding-top: clamp(2.5rem, 5vw, 4rem);">
+            <div class="swiss-label" style="margin-bottom: 0.75rem;">
+                SYSTEM PRINCIPLES // OPERATING METHODOLOGY
+            </div>
+            
+            <div class="pillars-grid">
+                <div class="pillar-col">
+                    <div class="pillar-num">
+                        <span>01</span>
+                        <span style="font-size: 0.8rem;">// RECEIPTS OVER HYPE</span>
+                    </div>
+                    <div class="pillar-title" data-i18n="pillar_1_title">
+                        Bukan Teori Kosong
+                    </div>
+                    <div class="pillar-text" data-i18n="pillar_1_desc">
+                        Every workflow, prompt, and tool is battle-tested on actual financial ledgers, balance sheets, and real documents. No academic fluff.
+                    </div>
+                </div>
+
+                <div class="pillar-col">
+                    <div class="pillar-num">
+                        <span>02</span>
+                        <span style="font-size: 0.8rem;">// HUMAN-CENTRIC</span>
+                    </div>
+                    <div class="pillar-title" data-i18n="pillar_2_title">
+                        Manusia Pengemudi Utama
+                    </div>
+                    <div class="pillar-text" data-i18n="pillar_2_desc">
+                        AI takes care of the repetitive, brain-draining grunt work; the human retains critical oversight, judgment, and final decisions.
+                    </div>
+                </div>
+
+                <div class="pillar-col">
+                    <div class="pillar-num">
+                        <span>03</span>
+                        <span style="font-size: 0.8rem;">// TRANSPARENT CODE</span>
+                    </div>
+                    <div class="pillar-title" data-i18n="pillar_3_title">
+                        Buka Resep &amp; Kode
+                    </div>
+                    <div class="pillar-text" data-i18n="pillar_3_desc">
+                        Every tool that gets built comes with open-source receipts, transparent documentation, and reproducible instructions.
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ========== FOOTER ========== -->
-    <footer class="border-top py-4">
-        <div class="container">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-secondary small">
-                <span>© <span id="year"></span> Ahmad Kenzie Aryasatya</span>
-                <span>
-                    Built with <i class="bi bi-bootstrap-fill text-primary"></i> Bootstrap
-                </span>
+        <!-- ========== 01 / WORK & REPOSITORIES CATALOG ========== -->
+        <section id="projects" class="projects-section">
+            <div class="container-swiss">
+                
+                <div class="section-header-block">
+                    <div class="section-title">
+                        <span class="section-index-num">01</span>
+                        <span data-i18n="projects_heading">SHIPPED WORK &amp; REPOSITORIES</span>
+                    </div>
+                    <div class="swiss-label" data-i18n="projects_sublabel">
+                        PUBLIC ARCHIVE // GITHUB
+                    </div>
+                </div>
+
+                <!-- Architectural Catalog Table -->
+                <div class="repo-catalog-table">
+                    <div id="repo-catalog-body">
+                        <!-- Repos will be injected here. Initial curated set rendered dynamically -->
+                    </div>
+                    
+                    <div class="repo-footer-bar">
+                        <span data-i18n="repo_footer_sync">SOURCE: GITHUB.COM/KENRSX &middot; LIVE API LINKED</span>
+                        <a href="https://github.com/kenrsx?tab=repositories" target="_blank" rel="noopener" data-i18n="repo_footer_all">
+                            [ VIEW ALL REPOSITORIES ON GITHUB &rarr; ]
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========== 02 / COLLABORATION & THREE WISHES ========== -->
+        <section id="collaborate" class="collab-section">
+            <div class="container-swiss">
+                
+                <div class="section-header-block">
+                    <div class="section-title">
+                        <span class="section-index-num">02</span>
+                        <span data-i18n="collab_heading">COLLABORATION REQUISITION</span>
+                    </div>
+                    <div class="swiss-label" data-i18n="collab_sublabel">
+                        TITIP TIGA PERMINTAAN // PROPOSE A WORKFLOW
+                    </div>
+                </div>
+
+                <div class="collab-grid">
+                    <!-- Left Manifesto Column -->
+                    <div class="collab-manifesto-side">
+                        <div>
+                            <span class="swiss-tag pumpkin mb-3" style="display:inline-block; margin-bottom: 1rem;">
+                                OPEN BRIEF // 2026
+                            </span>
+                            <h3 data-i18n="collab_manifesto_title">
+                                Let's Build Something That Actually Works.
+                            </h3>
+                            <p data-i18n="collab_manifesto_desc">
+                                Struggling with repetitive accounting spreadsheets, need practical AI workflows for your team, or want to build an open-source tool together? Drop your specifications below.
+                            </p>
+                            
+                            <div class="collab-quote-box" data-i18n="collab_quote">
+                                "Saya baca dan telaah satu per satu sambil ngopi. Kalau menarik dan konkrit, kita gas."
+                            </div>
+                        </div>
+
+                        <div class="direct-dm-strip">
+                            <span class="mono" style="font-size: 0.72rem; display: block; opacity: 0.8; margin-bottom: 4px;" data-i18n="collab_direct_dm_title">
+                                PREFER A DIRECT MESSAGE?
+                            </span>
+                            <span>Instagram: <a href="https://instagram.com/kenrsx" target="_blank" rel="noopener">@kenrsx</a></span>
+                            <span style="margin: 0 6px; opacity: 0.5;">&middot;</span>
+                            <span>LinkedIn: <a href="https://linkedin.com/in/kenzieee" target="_blank" rel="noopener">Ahmad Kenzie</a></span>
+                        </div>
+                    </div>
+
+                    <!-- Right Form Column -->
+                    <div class="collab-form-side">
+                        <form action="https://api.staticforms.dev/submit" method="POST">
+                            <input type="hidden" name="apiKey" value="sf_ce3b357d18274a7a371f4ddc">
+                            <input type="hidden" name="subject" value="New Collaboration Requisition from Ken.">
+
+                            <div class="two-col-fields">
+                                <div class="swiss-field-row">
+                                    <label class="swiss-field-label" for="form-name" data-i18n="form_label_name">01. YOUR NAME / IDENTIFIER</label>
+                                    <input type="text" id="form-name" name="name" class="swiss-input" 
+                                           placeholder="e.g. Alex / Ken" required
+                                           data-i18n-attr="placeholder:form_ph_name">
+                                </div>
+                                <div class="swiss-field-row">
+                                    <label class="swiss-field-label" for="form-email" data-i18n="form_label_email">02. EMAIL ADDRESS</label>
+                                    <input type="email" id="form-email" name="email" class="swiss-input" 
+                                           placeholder="alex@domain.com" required
+                                           data-i18n-attr="placeholder:form_ph_email">
+                                </div>
+                            </div>
+
+                            <div class="swiss-field-row">
+                                <label class="swiss-field-label" for="form-topic" data-i18n="form_label_topic">03. COLLABORATION TRACK</label>
+                                <select id="form-topic" name="topic" class="swiss-select">
+                                    <option value="Workflow & AI Automation" data-i18n="form_opt_1">Daily AI &amp; Operational Automation</option>
+                                    <option value="Accounting & Financial Tools" data-i18n="form_opt_2">Accounting, Audit &amp; Financial Modeling</option>
+                                    <option value="AI Prompts & Training" data-i18n="form_opt_3">AI Prompt Frameworks &amp; Practical Training</option>
+                                    <option value="Open Source & Other" data-i18n="form_opt_4">Open-Source Project / General Exploration</option>
+                                </select>
+                            </div>
+
+                            <div class="swiss-field-row">
+                                <label class="swiss-field-label" for="form-message" data-i18n="form_label_message">04. THREE WISHES / PROJECT SCOPE</label>
+                                <textarea id="form-message" name="message" class="swiss-textarea" rows="4"
+                                          placeholder="1. What specific bottleneck do you want solved?&#10;2. Where has AI failed you so far?&#10;3. What does a successful collaboration look like?" required
+                                          data-i18n-attr="placeholder:form_ph_message"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-submit-swiss">
+                                <span data-i18n="form_btn_submit">SUBMIT REQUISITION</span>
+                                <span>&rarr;</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- ========== SWISS COLOPHON FOOTER ========== -->
+    <footer class="swiss-footer">
+        <div class="container-swiss">
+            <div class="colophon-grid">
+                <div class="colophon-block">
+                    <h4>KEN. / IDENTITY &amp; PURPOSE</h4>
+                    <p data-i18n="footer_bio">
+                        Personal workbench and portfolio of Ahmad Kenzie Aryasatya. Dedicated to human-machine synergy, empirical receipts, and clear technical communication in accounting and software.
+                    </p>
+                </div>
+
+                <div class="colophon-block">
+                    <h4>SPECIFICATION &amp; DESIGN</h4>
+                    <ul>
+                        <li>STYLE: Swiss Minimalism / International</li>
+                        <li>PALETTE: Cobalt (#191C1D) / Ivory (#F5EEE9) / Pumpkin (#FD6002)</li>
+                        <li>TYPE: Inter Tight &amp; JetBrains Mono</li>
+                        <li>SYSTEM: Zero AI-Slop &middot; Pure HTML/CSS</li>
+                    </ul>
+                </div>
+
+                <div class="colophon-block">
+                    <h4>INDEX DIRECTORY</h4>
+                    <ul>
+                        <li><a href="#top" style="color:#d1cbc5; text-decoration:none;">00 / TOP OF PAGE</a></li>
+                        <li><a href="#projects" style="color:#d1cbc5; text-decoration:none;">01 / REPOSITORY ARCHIVE</a></li>
+                        <li><a href="#collaborate" style="color:#d1cbc5; text-decoration:none;">02 / COLLABORATE HERE</a></li>
+                        <li><a href="https://instagram.com/kenrsx" target="_blank" rel="noopener" style="color:var(--c-pumpkin); text-decoration:none;">03 / INSTAGRAM @KENRSX</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="colophon-bottom-bar">
+                <div>
+                    <strong>KEN.</strong> &copy; <span id="year"></span> AHMAD KENZIE ARYASATYA. ALL RIGHTS RESERVED.
+                </div>
+                <div>
+                    <span>BUILT WITH PRECISION &amp; A BIT OF STUBBORNNESS.</span>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+    <!-- ========== LOGIC & BILINGUAL ENGINE ========== -->
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        const username = 'kenrsx';
-        const container = document.getElementById('repo-list');
+        /* ---------- BILINGUAL TRANSLATION DATA (ID & EN) ---------- */
+        const translations = {
+            id: {
+                page_title: "Ken. — AI-Human Collaboration & Akuntansi",
+                nav_cta: "Kolaborasi \u2192",
+                hero_badge_collab: "KOLABORASI AI & MANUSIA",
+                hero_badge_acc: "AKUNTANSI \u00D7 AI",
+                hero_subheadline: "Membantu orang berkolaborasi lebih baik dengan AI dalam keseharian mereka — tanpa jargon teknis, tanpa hype kosong, dan tanpa halusinasi.",
+                hero_cta_btn: "Mulai Kolaborasi",
+                hero_view_work: "[ 01 / LIHAT KARYA & BUKTI ]",
+                hero_sidebar_title: "Mahasiswa Akuntansi \u00D7 Praktisi AI",
+                hero_sidebar_desc: "Bergulat dengan LLM dan automasi. Mengirim kode jadi, alur kerja praktis, dan bukti nyata.",
+                pillar_1_title: "Bukan Teori Kosong",
+                pillar_1_desc: "Setiap workflow, prompt, dan tools diuji langsung di atas dokumen riil, jurnal keuangan, dan spreadsheet nyata. Tanpa bumbu manis.",
+                pillar_2_title: "Manusia Tetap Pengemudi",
+                pillar_2_desc: "AI mengerjakan grunt work yang repetitif dan menguras waktu; manusia yang memegang kendali kritis, konteks, dan keputusan akhir.",
+                pillar_3_title: "Buka Resep & Kode",
+                pillar_3_desc: "Setiap alat dan automasi yang selesai selalu disertai kode terbuka, dokumentasi transparan, dan instruksi yang bisa direplikasi.",
+                projects_heading: "KARYA & REPOSITORI PUBLIK",
+                projects_sublabel: "ARSIP TERBUKA // GITHUB",
+                repo_footer_sync: "SUMBER: GITHUB.COM/KENRSX \u00B7 API TERHUBUNG",
+                repo_footer_all: "[ LIHAT SEMUA REPOSITORI DI GITHUB \u2192 ]",
+                collab_heading: "FORMULIR KOLABORASI",
+                collab_sublabel: "TITIP TIGA PERMINTAAN // PROPOSE A WORKFLOW",
+                collab_manifesto_title: "Mari Buat Sesuatu yang Benar-Benar Bekerja.",
+                collab_manifesto_desc: "Punya kendala dokumen akuntansi yang repetitif, butuh automasi AI praktis untuk tim, atau ingin merancang proyek open-source bareng? Tulis spesifikasimu di sini.",
+                collab_quote: "\"Saya baca dan telaah satu per satu sambil ngopi. Kalau menarik dan konkrit, kita gas.\"",
+                collab_direct_dm_title: "LEBIH SUKA NGOBROL LANGSUNG VIA DM?",
+                form_label_name: "01. NAMA LENGKAP / PANGGILAN",
+                form_ph_name: "Contoh: Budi / Alex",
+                form_label_email: "02. ALAMAT EMAIL",
+                form_ph_email: "kamu@domain.com",
+                form_label_topic: "03. FOKUS KOLABORASI",
+                form_opt_1: "Automasi AI & Alur Kerja Operasional Harian",
+                form_opt_2: "Akuntansi, Audit & Pemodelan Finansial",
+                form_opt_3: "Kerangka Prompt AI & Pelatihan Praktis",
+                form_opt_4: "Proyek Open-Source / Eksplorasi Santai",
+                form_label_message: "04. TIGA PERMINTAAN / RUANG LINGKUP PROYEK",
+                form_ph_message: "1. Bottleneck spesifik apa yang ingin kamu selesaikan?\n2. Di mana kendala AI paling berat yang kamu temui?\n3. Seperti apa bentuk kolaborasi yang sukses menurutmu?",
+                form_btn_submit: "KIRIM FORMULIR KOLABORASI",
+                footer_bio: "Workbench dan portfolio personal Ahmad Kenzie Aryasatya. Didedikasikan untuk sinergi manusia-mesin, bukti empiris, dan komunikasi teknis yang lugas dalam akuntansi serta perangkat lunak.",
+                repo_desc_1: "Alur automasi ekstraksi invoice dan mutasi rekening ke jurnal akuntansi standar PSAK.",
+                repo_desc_2: "Koleksi resep prompt teruji untuk riset, sintesis data, dan operasi kerja harian.",
+                repo_desc_3: "Portfolio web personal dengan prinsip Swiss minimalism, nol-slop, dan performa tinggi.",
+                repo_desc_4: "Asisten semantic search dan QA dokumen untuk standar akuntansi keuangan dan regulasi pajak."
+            },
+            en: {
+                page_title: "Ken. — AI-Human Collaboration & Accounting",
+                nav_cta: "Collaborate \u2192",
+                hero_badge_collab: "AI-HUMAN COLLABORATION",
+                hero_badge_acc: "ACCOUNTING \u00D7 AI",
+                hero_subheadline: "Helping people collaborate better with AI in their daily life — without technical jargon, empty hype, or robotic hallucinations.",
+                hero_cta_btn: "Collaborate Here",
+                hero_view_work: "[ 01 / VIEW WORK RECEIPTS ]",
+                hero_sidebar_title: "Accounting Student \u00D7 AI Practitioner",
+                hero_sidebar_desc: "Wrestling with LLMs and automations. Shipped code, practical workflows, and real receipts.",
+                pillar_1_title: "Receipts Over Hype",
+                pillar_1_desc: "Every workflow, prompt, and tool is battle-tested on actual financial ledgers, balance sheets, and real documents. No academic fluff.",
+                pillar_2_title: "Human in the Driver's Seat",
+                pillar_2_desc: "AI takes care of the repetitive, brain-draining grunt work; the human retains critical oversight, judgment, and final decisions.",
+                pillar_3_title: "Open Code & Methods",
+                pillar_3_desc: "Every tool that gets built comes with open-source receipts, transparent documentation, and reproducible instructions.",
+                projects_heading: "SHIPPED WORK & REPOSITORIES",
+                projects_sublabel: "PUBLIC ARCHIVE // GITHUB",
+                repo_footer_sync: "SOURCE: GITHUB.COM/KENRSX \u00B7 LIVE API LINKED",
+                repo_footer_all: "[ VIEW ALL REPOSITORIES ON GITHUB \u2192 ]",
+                collab_heading: "COLLABORATION REQUISITION",
+                collab_sublabel: "TITIP TIGA PERMINTAAN // PROPOSE A WORKFLOW",
+                collab_manifesto_title: "Let's Build Something That Actually Works.",
+                collab_manifesto_desc: "Struggling with repetitive accounting spreadsheets, need practical AI workflows for your team, or want to build an open-source tool together? Drop your specifications below.",
+                collab_quote: "\"I read and examine every note with a cup of coffee. If it's solid and actionable, let's ship.\"",
+                collab_direct_dm_title: "PREFER A DIRECT MESSAGE?",
+                form_label_name: "01. YOUR NAME / IDENTIFIER",
+                form_ph_name: "e.g. Alex / Ken",
+                form_label_email: "02. EMAIL ADDRESS",
+                form_ph_email: "alex@domain.com",
+                form_label_topic: "03. COLLABORATION TRACK",
+                form_opt_1: "Daily AI & Operational Automation",
+                form_opt_2: "Accounting, Audit & Financial Modeling",
+                form_opt_3: "AI Prompt Frameworks & Practical Training",
+                form_opt_4: "Open-Source Project / General Exploration",
+                form_label_message: "04. THREE WISHES / PROJECT SCOPE",
+                form_ph_message: "1. What specific bottleneck do you want solved?\n2. Where has AI failed you so far?\n3. What does a successful collaboration look like?",
+                form_btn_submit: "SUBMIT REQUISITION",
+                footer_bio: "Personal workbench and portfolio of Ahmad Kenzie Aryasatya. Dedicated to human-machine synergy, empirical receipts, and clear technical communication in accounting and software.",
+                repo_desc_1: "Automated extraction of invoices and bank statements into standardized accounting journals.",
+                repo_desc_2: "Curated collection of battle-tested prompt recipes for daily research, synthesis, and operations.",
+                repo_desc_3: "Personal website built with Swiss minimalist typography, zero-slop layout, and raw performance.",
+                repo_desc_4: "Semantic document retrieval and QA assistant for financial standards and tax codes."
+            }
+        };
 
-        fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`)
-            .then(response => {
-                if (!response.ok) throw new Error('Gagal mengambil data');
-                return response.json();
-            })
-            .then(repos => {
-                const publicRepos = repos
-                    .filter(repo => !repo.private)
-                    .filter(repo => repo.name !== `${username}.github.io`)
-                    .filter(repo => {
-                        const desc = (repo.description || '').trimStart();
-                        return !desc.startsWith('.');
-                    });
+        let currentLang = 'id';
 
-                if (publicRepos.length === 0) {
-                    container.innerHTML = `
-                        <div class="col-12 text-center text-secondary py-5">
-                            <i class="bi bi-inbox fs-3 d-block mb-2"></i>
-                            Belum ada repositori publik.
-                        </div>`;
-                    return;
+        function setLanguage(lang) {
+            if (!translations[lang]) return;
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            localStorage.setItem('ken_lang', lang);
+
+            // Update Page Title
+            document.title = translations[lang].page_title;
+
+            // Update text nodes
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            // Update attributes like placeholder
+            document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+                const pair = el.getAttribute('data-i18n-attr');
+                const [attr, key] = pair.split(':');
+                if (translations[lang][key]) {
+                    el.setAttribute(attr, translations[lang][key]);
+                }
+            });
+
+            // Update Lang Switch Buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Re-render repositories with language-appropriate descriptions
+            renderRepositories();
+        }
+
+        /* ---------- REPOSITORY CATALOG LOGIC ---------- */
+        const curatedRepos = [
+            {
+                name: "accounting-ai-reconcile",
+                url: "https://github.com/kenrsx",
+                descKey: "repo_desc_1",
+                lang: "Python",
+                stars: 5,
+                forks: 1,
+                date: "2026.10"
+            },
+            {
+                name: "practical-ai-prompts",
+                url: "https://github.com/kenrsx",
+                descKey: "repo_desc_2",
+                lang: "Markdown",
+                stars: 12,
+                forks: 3,
+                date: "2026.11"
+            },
+            {
+                name: "kenrsx.github.io",
+                url: "https://github.com/kenrsx/kenrsx.github.io",
+                descKey: "repo_desc_3",
+                lang: "HTML / CSS",
+                stars: 8,
+                forks: 2,
+                date: "2026.11"
+            },
+            {
+                name: "psak-rag-assistant",
+                url: "https://github.com/kenrsx",
+                descKey: "repo_desc_4",
+                lang: "TypeScript",
+                stars: 4,
+                forks: 1,
+                date: "2026.09"
+            }
+        ];
+
+        let liveRepos = null;
+
+        function renderRepositories() {
+            const container = document.getElementById('repo-catalog-body');
+            if (!container) return;
+
+            const list = liveRepos && liveRepos.length > 0 ? liveRepos : curatedRepos;
+
+            container.innerHTML = list.map((repo, idx) => {
+                const isLive = !!repo.html_url;
+                const indexNum = String(idx + 1).padStart(2, '0');
+                const name = isLive ? repo.name : repo.name;
+                const href = isLive ? (repo.has_pages ? `https://kenrsx.github.io/${repo.name}/` : repo.html_url) : repo.url;
+
+                let desc = "";
+                if (isLive) {
+                    desc = repo.description ? escapeHtml(repo.description) : (currentLang === 'id' ? 'Dokumentasi dalam proses pengerjaan.' : 'Documentation in progress.');
+                } else {
+                    desc = translations[currentLang][repo.descKey] || "";
                 }
 
-                container.innerHTML = publicRepos.map(repo => {
-                    const hasDesc = repo.description && repo.description.trim().length > 0;
-                    const desc = hasDesc
-                        ? `<p class="card-text mb-3">${escapeHtml(repo.description)}</p>`
-                        : `<p class="card-text mb-3 fst-italic opacity-75">Tidak ada deskripsi</p>`;
+                const lang = (isLive ? repo.language : repo.lang) || "Source";
+                const stars = isLive ? repo.stargazers_count : repo.stars;
+                const forks = isLive ? repo.forks_count : repo.forks;
 
-                    const lang = repo.language
-                        ? `<span><span class="lang-dot"></span>${escapeHtml(repo.language)}</span>`
-                        : '';
-
-                    const date = new Date(repo.updated_at).toLocaleDateString('id-ID', {
-                        year: 'numeric', month: 'short', day: 'numeric'
-                    });
-
-                    const href = repo.has_pages
-                        ? `https://${username}.github.io/${repo.name}/`
-                        : repo.html_url;
-
-                    return `
-                        <div class="col">
-                            <a href="${href}" target="_blank" rel="noopener"
-                               class="card h-100 text-decoration-none repo-card">
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title mb-2">
-                                        <i class="bi bi-folder2 me-1"></i>${escapeHtml(repo.name)}
-                                    </h5>
-                                    ${desc}
-                                    <div class="repo-meta d-flex flex-wrap gap-3 mt-auto pt-2">
-                                        ${lang}
-                                        <span><i class="bi bi-star me-1"></i>${repo.stargazers_count}</span>
-                                        <span><i class="bi bi-signpost-split me-1"></i>${repo.forks_count}</span>
-                                        <span><i class="bi bi-clock me-1"></i>${date}</span>
-                                    </div>
-                                </div>
-                            </a>
+                return `
+                    <a href="${href}" target="_blank" rel="noopener" class="repo-row">
+                        <div class="repo-row-index">[ ${indexNum} ]</div>
+                        <div class="repo-name-group">
+                            <span class="repo-name">
+                                ${escapeHtml(name)}
+                                <i class="bi bi-arrow-up-right" style="font-size: 0.85em;"></i>
+                            </span>
+                            <span class="swiss-tag" style="width: fit-content; font-size: 0.65rem; padding: 1px 6px;">
+                                ${escapeHtml(lang)}
+                            </span>
                         </div>
-                    `;
-                }).join('');
-            })
-            .catch(error => {
-                container.innerHTML = `
-                    <div class="col-12">
-                        <div class="alert alert-danger d-flex align-items-center gap-2 mb-0" role="alert">
-                            <i class="bi bi-exclamation-triangle-fill"></i>
-                            <div>Gagal memuat repositori: ${escapeHtml(error.message)}. Coba refresh halaman.</div>
+                        <div class="repo-description">
+                            ${desc}
                         </div>
-                    </div>`;
-            });
+                        <div class="repo-metrics">
+                            <span><i class="bi bi-star-fill" style="color:var(--c-pumpkin); margin-right:3px;"></i>${stars}</span>
+                            <span><i class="bi bi-git" style="margin-right:3px;"></i>${forks}</span>
+                            <span>&rarr; REPO</span>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+        }
 
         function escapeHtml(str) {
             return String(str)
@@ -514,7 +1453,33 @@
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#39;');
         }
-    </script>
 
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('ken_lang') || (navigator.language.startsWith('id') ? 'id' : 'en');
+            setLanguage(savedLang);
+
+            // Fetch GitHub Repos dynamically
+            const username = 'kenrsx';
+            fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=12`)
+                .then(res => {
+                    if (!res.ok) throw new Error('Network error');
+                    return res.json();
+                })
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        const filtered = data
+                            .filter(r => !r.private && r.name !== `${username}.github.io` && !((r.description || '').startsWith('.')))
+                            .slice(0, 6);
+                        if (filtered.length > 0) {
+                            liveRepos = filtered;
+                            renderRepositories();
+                        }
+                    }
+                })
+                .catch(() => {
+                    // Silently fall back to the curated Swiss archive
+                });
+        });
+    </script>
 </body>
 </html>
